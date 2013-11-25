@@ -27,8 +27,8 @@ class Nzdrm {
   	public static $profiling = false;
 	public static $logging = false;
 	public static $mail_on_success = true;
-	public static $organisation = 'nozdormu.com';
-	public static $mail_recipient = 'foubar.v+devcron@gmail.com';
+	public static $organisation = 'domain.tld';
+	public static $mail_recipient = 'mail@domain.tld';
 	public static $profile_in_mail = true;
 	public static $log_threshold = '300';
 	public static $log_folder_path = '../var/log/';
