@@ -2,8 +2,10 @@
 <?php
 require_once('../lib/tools.php');
 require_once('../lib/nzdrm.php');
-$argv[1] = '';
+
 $nzdrm = new Nzdrm\Nzdrm();
 $nzdrm::init();
-$nzdrm::launch();
+if (empty($argv[1]))
+	$nsdrm::get_from_db();
+$nzdrm::launch($argv[1]);
 ?>

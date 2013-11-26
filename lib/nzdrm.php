@@ -34,7 +34,7 @@ class Nzdrm {
 	public static $log_folder_path = '../var/log/';
 	public static $log_file_name = 'Nozdormu';
 	public static $initialized = false;
-
+	public static $cnf = array();
 	final public function __construct() { }
 
 	public static function init($cnf_fn = 'nzdrm.conf')
@@ -49,7 +49,7 @@ class Nzdrm {
 			logger('WARNING', "Can't find ".self::CNFPATH.$cnf_fn."! Use default parameters", __METHOD__);
 		}
 		else
-		$cnf = parse_ini_file(self::CNFPATH.$cnf_fn, true);
+		static::$cnf = parse_ini_file(self::CNFPATH.$cnf_fn, true);
 		static::$profiling = (empty($cnf['profiler']))?false:true;
 		static::$profiling and \Nzdrm\Profiler::init();
 		static::$logging = (empty($cnf['logger']))?false:true;
@@ -76,10 +76,22 @@ class Nzdrm {
 		}
 
 	}
-	public static function launch($process = 'from_db')
+	public static function get_from_db()
 	{
-		logger('INFO', 'Nozdormu launches '.$process.'.php');
+		/** @TODO
+		**  Set DB connection
+		**	Get Waiting Task(s)
+		**	Set Pending state
+		**	Lauch Task
+		**	Update state not oneshot task
+		**/
+	}
+	public static function launch($process)
+	{
+		
 		static::$process = $process;
+		if (static::$profiling)
+			\Nzdrm\Profiler::mark(__METHOD__.' Start');
 		if (!file_exists(self::BINPATH.$process.'.php'))
 			logger('ERROR', "Can't find ".self::BINPATH.$process."! Shut down", __METHOD__);
 		else
@@ -87,15 +99,23 @@ class Nzdrm {
 				logger('ERROR', self::BINPATH.$process." isn't executable! Shut down", __METHOD__);
 			else
 			{
+				if (static::$logging)
+					logger('INFO', 'Nozdormu launches '.$process.'.php');
 				$pr = new \Nzdrm\Process($process.'.php');
 				while(true)
 					if ($pr->status === false)
 						break;
 			}
+		if (static::$profiling)
+			\Nzdrm\Profiler::mark(__METHOD__.' End');
+		if (static::$logging)
+			logger('INFO', 'Nozdormu ended '.$process.'.php');
 		self::shut_down();
 	}
 	public static function shut_down()
 	{
+		if (static::$logging)
+			logger('INFO', 'Nozdormu is Shuting down.');
 		$mail = new \PHPmailer();
 		$mail->From = 'noreply@'.static::$organisation;
 		$mail->FromName = 'Nozdormu';

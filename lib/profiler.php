@@ -2,18 +2,17 @@
 
 namespace Nzdrm;
 
-
 class Profiler
 {
 
         protected static $profiler = null;
         protected static $logs = array(
-'console'=>array(),
-'queries' => array(),
-'query_count' => 0,
-'log_count' => 0,
-'error_count' => 0,
-'speed_count'=>0);
+                                    'console'=>array(),
+                                    'queries' => array(),
+                                    'query_count' => 0,
+                                    'log_count' => 0,
+                                    'error_count' => 0,
+                                    'speed_count'=>0);
 
         protected static $query = null;
 
@@ -50,12 +49,10 @@ class Profiler
                 self::addToConsoleAndIncrement('log_count', $logItem);
         }
 
-        /*---------------------------------------------------
-             LOG MEMORY USAGE OF VARIABLE OR ENTIRE SCRIPT
-        -----------------------------------------------------*/
+
 
         public static function logMemory($object = false, $name = 'Memory Usage') {
-                $memory = ($object and ! $object instanceOf \Controller) ? strlen(serialize($object)) : memory_get_usage();
+                $memory = ($object) ? strlen(serialize($object)) : memory_get_usage();
                 $logItem = array(
                         "data" => $memory,
                         "type" => 'memory',
@@ -64,10 +61,6 @@ class Profiler
                 );
                 self::addToConsoleAndIncrement('memory_count', $logItem);
         }
-
-        /*------------------------------------
-             POINT IN TIME SPEED SNAPSHOT
-        -------------------------------------*/
 
         public static function logSpeed($name = 'Point in Time') {
                 $logItem = array(
@@ -83,9 +76,6 @@ class Profiler
                 $time = explode(' ', $time);
                 return $time[1] + $time[0];
         }
-        /*-----------------------------------
-               RETURN  & MODIFY LOGS
-        ------------------------------------*/
 
         public static function addToConsoleAndIncrement($log, $item) {
                 if(!isset(static::$logs))

@@ -15,10 +15,7 @@ class Log
 	protected static $log 		= null;
 	protected static $logfile 	= null;
 	protected static $handler	= null;
-		/**
-		 * Copy of the Monolog log levels
-		 */
-		protected static $levels = array(
+	protected static $levels = array(
 			100 => 'DEBUG',
 			200 => 'INFO',
 			250 => 'NOTICE',
