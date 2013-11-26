@@ -50,25 +50,25 @@ class Nzdrm {
 		}
 		else
 		static::$cnf = parse_ini_file(self::CNFPATH.$cnf_fn, true);
-		static::$profiling = (empty($cnf['profiler']))?false:true;
+		static::$profiling = (empty(static::$cnf['profiler']))?false:true;
 		static::$profiling and \Nzdrm\Profiler::init();
-		static::$logging = (empty($cnf['logger']))?false:true;
-		static::$locale = (empty($cnf['locale']))?null:$cnf['locale'];
-		static::$log_folder_path = (empty($cnf['log_folder_path']))?'../var/log/':$cnf['log_folder_path'];
-		static::$log_file_name = (empty($cnf['log_file_name']))?'Nozdormu':$cnf['log_file_name'];
+		static::$logging = (empty(static::$cnf['logger']))?false:true;
+		static::$locale = (empty(static::$cnf['locale']))?null:static::$cnf['locale'];
+		static::$log_folder_path = (empty(static::$cnf['log_folder_path']))?'../var/log/':static::$cnf['log_folder_path'];
+		static::$log_file_name = (empty(static::$cnf['log_file_name']))?'Nozdormu':static::$cnf['log_file_name'];
         if (static::$locale)
 		{
 			setlocale(LC_ALL, static::$locale) or
 			logger('WARNING', 'The configured locale '.static::$locale.' is not installed on your system.', __METHOD__);
 		}
-		static::$timezone = (!empty($cnf['timezone'])) ? $cnf['timezone']: date_default_timezone_get();
+		static::$timezone = (!empty(static::$cnf['timezone'])) ? static::$cnf['timezone']: date_default_timezone_get();
 		if (!date_default_timezone_set(static::$timezone))
 		{
 			date_default_timezone_set('UTC');
 			logger('WARNING', 'The configured locale '.static::$timezone.' is not valid.', __METHOD__);
 
 		}
-		static::$log_threshold = (!empty($cnf['log_threshold'])) ? $cnf['log_threshold']: '300';
+		static::$log_threshold = (!empty(static::$cnf['log_threshold'])) ? static::$cnf['log_threshold']: '300';
 		static::$initialized = true;
 		if (static::$profiling)
 		{
