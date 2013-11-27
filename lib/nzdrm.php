@@ -12,6 +12,7 @@ namespace Nzdrm;
 require_once('log.php');
 require_once('profiler.php');
 require_once('process.php');
+require_once('database.php');
 require_once('vendors/PHPMailer/PHPMailerAutoload.php');
 
 
